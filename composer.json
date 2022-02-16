@@ -1,11 +1,11 @@
 {
-    "name": "faaren-tech/auth-sdk",
+    "name": "faaren-tech/faaren-sdk",
     "description": "A sdk to interact with our authorization service",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "FaarenTech\\AuthSdk\\": "src/"
+            "FaarenTech\\FaarenSDK\\": "src/"
         }
     },
     "authors": [
@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "FaarenTech\\AuthSdk\\AuthSdkServiceProvider"
+                "FaarenTech\\FaarenSDK\\FaarenSDKServiceProvider"
             ],
             "aliases": {}
         }
