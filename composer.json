@@ -1,0 +1,32 @@
+{
+    "name": "faaren-tech/auth-sdk",
+    "description": "A sdk to interact with our authorization service",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "FaarenTech\\AuthSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fabian Hagen",
+            "email": "fabian@faaren.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.24"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FaarenTech\\WebhookReceiver\\WebhookReceiverServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}
