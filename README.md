@@ -1,6 +1,6 @@
-# FAAREN AuthSDK
+# FAAREN SDK
 
-## Install
+## Installation
 
 ```shell
 composer require faaren-tech/auth-sdk
