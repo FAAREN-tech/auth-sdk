@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "FaarenTech\\WebhookReceiver\\WebhookReceiverServiceProvider"
+                "FaarenTech\\AuthSdk\\AuthSdkServiceProvider"
             ],
             "aliases": {}
         }
