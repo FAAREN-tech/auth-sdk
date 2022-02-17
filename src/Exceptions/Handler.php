@@ -1,9 +1,10 @@
 <?php
 
 namespace FaarenTech\FaarenSDK\Exceptions;
+
 use FaarenTech\FaarenSDK\Resources\ResponseCollection;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Throwable;
 
 abstract class Handler extends ExceptionHandler
 {
