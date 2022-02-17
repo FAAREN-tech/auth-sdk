@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\App;
 use Throwable;
 
-abstract class ResponseResource extends JsonResource
+abstract class FaarenResource extends JsonResource
 {
     protected bool $success;
     protected int $httpCode;
