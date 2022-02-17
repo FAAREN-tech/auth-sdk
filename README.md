@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-composer require faaren-tech/auth-sdk
+composer require faaren-tech/faaren-sdk
 
 // choose FaarenTech/AuthSdk/AuthSdkServiceProvider
 php artisan vendor:publish
@@ -86,4 +86,76 @@ class SomeFormRequest extends \Illuminate\Foundation\Http\FormRequest {
 }
 
 // Or everywhere via request() helper
+```
+
+### Define Resources 
+Since version 1.1.0 we use "ResponseCollection" and "ResourceCollection" in our Resource-definitions. 
+
+To use your own Resource with our Schema, you need to extend your Resource from "ResponseResource" and not from "JsonResource"
+Then you need to change your "toArray" method to "toPayload"
+Example: 
+```php 
+class YourAwesomeResource extends ResponseResource
+{
+    /**
+     * @return array[]
+     */
+    public function toPayload()
+    {
+        return [
+            'awesome' => true
+        ];
+    }
+}
+```
+
+####Resource Collection:
+So your Resource gets mapped as YourAwesomeResourceCollection
+```php 
+class YourAwesomeResourceCollection extends \FaarenTech\FaarenSDK\Resources\ResponseCollection
+{
+    public $collects = YourAwesomeResource::class;
+}
+```
+
+### Validation as Json in our Response-Schema
+Your class needs to be extend from "FaarenRequest", and every validation error uses the schema
+```php 
+use FaarenTech\FaarenSDK\Request\FaarenRequest;
+
+class ShowVehiclePoolRequest extends FaarenRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+
+}
+```
+
+### Handle Exceptions as Json
+File: `app/Exceptions/Handler` change the extends to ` \FaarenTech\FaarenSDK\Exceptions\Handler`
+
+```php 
+
+class Handler extends \FaarenTech\FaarenSDK\Exceptions\Handler
+{
+}
 ```
