@@ -2,15 +2,14 @@
 
 namespace FaarenTech\FaarenSDK\Http\Middleware;
 
-use FaarenTech\FaarenSDK\Entities\ApiToken;
+use FaarenTech\FaarenSDK\Entities\AppToken;
+use FaarenTech\FaarenSDK\FaarenSDK;
 use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Http;
 
-class HandleApiTokenMiddleware
+class HandleAppTokenMiddleware
 {
-    protected string $endpoint = "users/api-tokens/self";
-
     /**
      * Handle an incoming request.
      *
@@ -22,19 +21,19 @@ class HandleApiTokenMiddleware
     {
         $plainTextToken = $request->bearerToken();
 
-        $endpoint = config('faaren-sdk.service_url') . "/" . $this->endpoint;
+        $endpoint = config('faaren-sdk.service_url') . "/" . FaarenSDK::TOKEN_SELF_URL;
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
             $reason = $response->object()->message ?? "No error message available";
             $status = $response->status();
 
-            abort($status, "ApiToken-Error: {$reason}");
+            abort($status, "appToken-Error: {$reason}");
         }
 
-        $token = new ApiToken($response->object()->data, $plainTextToken);
+        $token = new AppToken($response->object()->data, $plainTextToken);
 
-        $request->merge(['api_token' => $token]);
+        $request->merge(['app_token' => $token]);
 
         return $next($request);
     }

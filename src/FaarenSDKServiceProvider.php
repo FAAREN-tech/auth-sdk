@@ -1,7 +1,7 @@
 <?php
 namespace FaarenTech\FaarenSDK;
 
-use FaarenTech\FaarenSDK\Http\Middleware\HandleApiTokenMiddleware;
+use FaarenTech\FaarenSDK\Http\Middleware\HandleAppTokenMiddleware;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,7 +25,7 @@ class FaarenSDKServiceProvider extends ServiceProvider
 
         $router = $this->app->make(Router::class);
         $router->middlewareGroup('faaren', [
-            HandleApiTokenMiddleware::class
+            HandleAppTokenMiddleware::class
         ]);
     }
 }

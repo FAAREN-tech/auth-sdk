@@ -2,7 +2,7 @@
 
 namespace FaarenTech\FaarenSDK\Exceptions;
 
-class ApiTokenException extends \Exception
+class AppTokenException extends \Exception
 {
 
 }

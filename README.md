@@ -57,7 +57,7 @@ The listed permissions, subsidiary_uuid and user_uuid can be used to make your a
 
 You can add the middleware group `faaren` to all routes you like. This middleware group contains the following middlewares:
 
-- [HasValidTokenMiddleware](src/Http/Middleware/HandleApiTokenMiddleware.php) => Checks if the given token is valid and attaches the token details to the current request. The details are available with `$request->api_token`.
+- [HasValidTokenMiddleware](src/Http/Middleware/HandleAppTokenMiddleware.php) => Checks if the given token is valid and attaches the token details to the current request. The details are available with `$request->api_token`.
 
 Using this middleware makes it easy to work with tokens. You can access the token details everywhere via the request object:
 

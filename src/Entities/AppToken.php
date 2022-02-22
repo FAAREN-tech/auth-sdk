@@ -2,20 +2,20 @@
 
 namespace FaarenTech\FaarenSDK\Entities;
 
-use FaarenTech\FaarenSDK\Exceptions\ApiTokenException;
+use FaarenTech\FaarenSDK\Exceptions\AppTokenException;
 
-class ApiToken
+class AppToken
 {
     protected string $plainTextToken;
     protected \stdClass $details;
 
     /**
-     * @param \stdClass $apiTokenObject
+     * @param \stdClass $appTokenObject
      * @param string $plainTextToken
      */
-    public function __construct(\stdClass $apiTokenObject, string $plainTextToken)
+    public function __construct(\stdClass $appTokenObject, string $plainTextToken)
     {
-        $this->details = $apiTokenObject;
+        $this->details = $appTokenObject;
         $this->details->plainTextToken = $plainTextToken;
     }
 
@@ -33,12 +33,12 @@ class ApiToken
      * Returns the token's permissions
      *
      * @return array
-     * @throws ApiTokenException
+     * @throws AppTokenException
      */
     public function permissions(): array
     {
         if(!$this->details->permissions || !is_array($this->details->permissions)) {
-            throw new ApiTokenException();
+            throw new AppTokenException();
         }
 
         return (array) $this->details->permissions;

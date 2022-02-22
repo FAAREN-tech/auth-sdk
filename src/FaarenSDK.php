@@ -2,14 +2,14 @@
 
 namespace FaarenTech\FaarenSDK;
 
-use FaarenTech\FaarenSDK\Entities\ApiToken;
-use FaarenTech\FaarenSDK\Exceptions\ApiTokenException;
+use FaarenTech\FaarenSDK\Entities\AppToken;
+use FaarenTech\FaarenSDK\Exceptions\AppTokenException;
 use Illuminate\Support\Facades\Http;
 
 class FaarenSDK
 {
-    protected ApiToken $apiToken;
-    protected string $endpoint = "users/api-tokens/self";
+    const TOKEN_SELF_URL = "/app-tokens/self";
+    protected AppToken $appToken;
 
     /**
      * Initialize the FAAREN SDK
@@ -24,46 +24,46 @@ class FaarenSDK
 
     /**
      * @param string $plainTextToken
-     * @throws ApiTokenException
+     * @throws AppTokenException
      */
     public function __construct(string $plainTextToken)
     {
-        $this->apiToken = $this->validateToken($plainTextToken);
+        $this->appToken = $this->validateToken($plainTextToken);
     }
 
     /**
      * Validates the given token
      *
      * @param string $plainTextToken
-     * @return ApiToken
-     * @throws ApiTokenException
+     * @return AppToken
+     * @throws AppTokenException
      */
-    protected function validateToken(string $plainTextToken): ApiToken
+    protected function validateToken(string $plainTextToken): AppToken
     {
-        // Necessary if already made by HandleApiTokenMiddleware
-        if(request()->has('api_token') && request()->api_token instanceof ApiToken) {
-            return request()->api_token;
+        // Necessary if already made by HandleappTokenMiddleware
+        if(request()->has('app_token') && request()->app_token instanceof AppToken) {
+            return request()->app_token;
         }
 
-        $endpoint = config('faaren-sdk.service_url') . "/" . $this->endpoint;
+        $endpoint = config('faaren-sdk.service_url') . "/" . self::TOKEN_SELF_URL;
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
             $reason = $response->object()->message ?? "No error message available";
             $status = $response->status();
-            throw new ApiTokenException("ApiToken-Error: Http status {$status} - {$reason}");
+            throw new AppTokenException("appToken-Error: Http status {$status} - {$reason}");
         }
 
-        return new ApiToken($response->object()->data, $plainTextToken);
+        return new AppToken($response->object()->data, $plainTextToken);
     }
 
     /**
-     * Returns the ApiToken-instance
+     * Returns the appToken-instance
      *
-     * @return ApiToken
+     * @return AppToken
      */
-    public function apiToken(): ApiToken
+    public function appToken(): AppToken
     {
-        return $this->apiToken;
+        return $this->appToken;
     }
 }
