@@ -55,7 +55,7 @@ abstract class FaarenResource extends JsonResource
 
         $errorResponse["message"] = $this->exception->getMessage();
         if (App::environment('local')) {
-            $errorResponse['stacktrace'] = $this->exception->getTrace();
+            $errorResponse['stacktrace'] = $this->exception->getTraceAsString();
         }
 
         return $errorResponse;
