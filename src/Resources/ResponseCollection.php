@@ -39,9 +39,7 @@ class ResponseCollection extends ResourceCollection
         return [
             'success' => $this->success,
             'code' => $this->httpCode,
-            'payload' => [
-                $this->collection ?? null
-            ],
+            'payload' => $this->collection ?? null,
             'error' => $this->errorResponse()
         ];
     }
