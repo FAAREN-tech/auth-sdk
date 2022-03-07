@@ -13,6 +13,8 @@ Customize the `service_url` parameter in config `auth-sdk.php` or set the value 
 
 ## Usage
 
+> Important! If you use this library in a docker context `FAAREN_AUTH_SERVICE_URL` has to be the IP address of your machine. Otherwise it will try to find a host in its own docker network.
+
 You can use the package everywhere by simply initializing it:
 
 ```php
