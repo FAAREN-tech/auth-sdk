@@ -4,9 +4,13 @@ namespace FaarenTech\FaarenSDK\Request;
 use FaarenTech\FaarenSDK\Entities\AppToken;
 use FaarenTech\FaarenSDK\Resources\ResponseCollection;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizationInterface;
 
-abstract class FaarenRequest extends FormRequest
+abstract class FaarenRequest extends FormRequest implements AuthorizationInterface
 {
+    use Authorizable;
+    
     /**
      * @param array $errors
      * @return ResponseCollection
