@@ -7,6 +7,7 @@ use FaarenTech\FaarenSDK\FaarenSDK;
 use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class HandleAppTokenMiddleware
 {
@@ -21,7 +22,12 @@ class HandleAppTokenMiddleware
     {
         $plainTextToken = $request->bearerToken();
 
-        $endpoint = config('faaren-sdk.service_url') . "/" . FaarenSDK::TOKEN_SELF_URL;
+        $endpoint = Str::replace(
+            "//",
+            "/",
+            config('faaren-sdk.service_url') . "/" . FaarenSDK::TOKEN_SELF_URL
+        );
+        
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
