@@ -89,6 +89,60 @@ class SomeFormRequest extends \Illuminate\Foundation\Http\FormRequest {
 
 // Or everywhere via request() helper
 ```
+### Form Requests
+
+This package provides a BaseRequest, the `FaarenRequest`. This Request implementes the `Illuminate\Contracts\Auth\Access\Authorizable` via the `Illuminate\Foundation\Auth\Access\Authorizable` trait. It can be used for any FormRequest you will create in your service.
+
+This way it is possible to authorize incoming requests directly in your form request:
+```php
+use FaarenTech\FaarenSDK\Request\FaarenRequest;
+
+class YourRequest extends FaarenRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return $this->can('index', SomeModel::class);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+}
+```
+
+In your policy you won't pass in an instance of your User. Instead you pass in an instance of your form request. The underlying policy:
+
+```php
+class YourPolicy
+{
+    use HandlesAuthorization;
+
+    public function index(TemplateIndexRequest $request)
+    {
+        // Here you can access the methods from the FaarenRequest
+        // Access the AppToken via $request->api_token;
+        return true;
+    }
+
+    public function show(TemplateIndexRequest $request, SomeModel $someModel)
+    {
+        return true;
+    }
+}
+```
 
 ### Define Resources 
 Since version 1.1.0 we use "ResponseCollection" and "ResourceCollection" in our Resource-definitions. 
@@ -111,7 +165,7 @@ class YourAwesomeResource extends ResponseResource
 }
 ```
 
-####Resource Collection:
+#### Resource Collection:
 So your Resource gets mapped as YourAwesomeResourceCollection
 ```php 
 class YourAwesomeResourceCollection extends \FaarenTech\FaarenSDK\Resources\ResponseCollection
@@ -153,6 +207,7 @@ class ShowVehiclePoolRequest extends FaarenRequest
 ```
 
 ### Handle Exceptions as Json
+
 File: `app/Exceptions/Handler` change the extends to ` \FaarenTech\FaarenSDK\Exceptions\Handler`
 
 ```php 
