@@ -92,6 +92,8 @@ If an error occurs while calling the Notification Service, a `\FaarenTech\Faaren
 
 > "message": "Status 422: Notification could not be sent because: The to field is required.",
 
+The used tokens and endpoints can be customized via you `.env` file. The available keys are listed in `/config/faaren-sdk.php` within the vendor directory or, if you have published the config, in your applications config-folder.
+
 
 ### Middlewares
 

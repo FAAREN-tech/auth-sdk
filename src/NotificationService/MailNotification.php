@@ -3,19 +3,12 @@
 namespace FaarenTech\FaarenSDK\NotificationService;
 
 use FaarenTech\FaarenSDK\Exceptions\NotificationServiceException;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class MailNotification
 {
-    private const PRODUCTION_URL = "https://services.faaren.com/notification/";
-    private const STAGING_URL = "https://services.staging.faaren.com/notification/";
-    private const DEV_URL = "notification:8080/";
-
-    private const PRODUCTION_TOKEN = "nq6FjyM8HkUYX59mCbuwFwnDgduw54pJMTRdY8MxjC5UkNhshRK5WTDv6kxdsnRX";
-    private const STAGING_TOKEN = "zVHGJsQM4XL9CN8WqftvC6YWx2kgsbEnTeeXJrAUV77YgLFaXaWSwtV2W3Bn387y";
-    private const LOCAL_TOKEN = "ZQMQqW9DaS4Gs9wpcSEQ5xjm7nYaQCb9K6dYwjTMFkrJwRww4C2BV28TCH26fMCk";
-
     /**
      * The mailing that should be sent
      * @var string|null
@@ -111,9 +104,9 @@ class MailNotification
     protected function getEndpoint(): string
     {
         return match (config('app.env')) {
-            "production", "prod" => self::PRODUCTION_URL,
-            "staging", "stage" => self::STAGING_URL,
-            default => self::DEV_URL,
+            "production", "prod" => config('faaren-sdk.notification_service.endpoints.production'),
+            "staging", "stage" => config('faaren-sdk.notification_service.endpoints.staging'),
+            default => config('faaren-sdk.notification_service.endpoints.dev'),
         };
     }
 
@@ -125,9 +118,9 @@ class MailNotification
     protected function getToken(): string
     {
         return match (config('app.env')) {
-            "production", "prod" => self::PRODUCTION_TOKEN,
-            "staging", "stage" => self::STAGING_TOKEN,
-            default => self::LOCAL_TOKEN,
+            "production", "prod" => config('faaren-sdk.notification_service.tokens.production'),
+            "staging", "stage" => config('faaren-sdk.notification_service.tokens.staging'),
+            default => config('faaren-sdk.notification_service.tokens.dev'),
         };
     }
 }
