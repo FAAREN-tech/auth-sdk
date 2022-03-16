@@ -6,6 +6,9 @@ use FaarenTech\FaarenSDK\Resources\ResponseCollection;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+/**
+ * @deprecated
+ */
 abstract class Handler extends ExceptionHandler
 {
     /**

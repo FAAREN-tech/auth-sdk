@@ -4,7 +4,10 @@ namespace FaarenTech\FaarenSDK;
 
 use FaarenTech\FaarenSDK\Entities\AppToken;
 use FaarenTech\FaarenSDK\Exceptions\AppTokenException;
+use FaarenTech\FaarenSDK\NotificationService\NotificationService;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use JetBrains\PhpStorm\Pure;
 
 class FaarenSDK
 {
@@ -45,7 +48,12 @@ class FaarenSDK
             return request()->app_token;
         }
 
-        $endpoint = config('faaren-sdk.service_url') . "/" . self::TOKEN_SELF_URL;
+        $endpoint = Str::replace(
+            "//",
+            "/",
+            config('faaren-sdk.service_url') . "/" . self::TOKEN_SELF_URL
+        );
+
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
@@ -65,5 +73,13 @@ class FaarenSDK
     public function appToken(): AppToken
     {
         return $this->appToken;
+    }
+
+    /**
+     * @return NotificationService
+     */
+    #[Pure] public function notification(): NotificationService
+    {
+        return new NotificationService();
     }
 }

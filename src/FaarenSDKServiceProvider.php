@@ -10,7 +10,7 @@ class FaarenSDKServiceProvider extends ServiceProvider
 {
     public function register()
     {
-
+        $this->mergeConfigFrom(__DIR__.'/../config/faaren-sdk.php', 'faaren-sdk');
     }
 
     public function boot()

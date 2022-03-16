@@ -14,6 +14,7 @@ Customize the `service_url` parameter in config `auth-sdk.php` or set the value 
 ## Usage
 
 > Important! If you use this library in a docker context `FAAREN_AUTH_SERVICE_URL` has to be the IP address of your machine. Otherwise it will try to find a host in its own docker network.
+> As an alternative you can add an `external_hosts` option to your docker-compose-container. 
 
 You can use the package everywhere by simply initializing it:
 
@@ -55,8 +56,48 @@ The Token-Object contains the following details, for example:
 
 The listed permissions, subsidiary_uuid and user_uuid can be used to make your app-specific authorization.
 
+### Notifications
+
+#### Mailings
+
+You can simply trigger notifications via the Notification Service:
+
+```php
+use FaarenTech\FaarenSDK\FaarenSdk;
+
+class SomeClass {
+    
+    public function someFunction()
+    {
+        $sdk = FaarenSdk::init("yourApiToken");
+        $mailing = $sdk
+            ->notification()
+            ->mail()
+            ->setMailing('example')
+            ->setMailData([
+                "to" => "fabian@faaren.com",
+                "from" => "example@faaren.com",
+                "bcc" => "it@faaren.com",
+                "whitelabel_config" => [
+                    "foo" => "bar"
+                ]
+            ])
+            ->send();
+    }
+    
+}
+```
+
+If an error occurs while calling the Notification Service, a `\FaarenTech\FaarenSDK\Exceptions\NotificationServiceException` is thrown. The exception message will contain a hint what was going wrong, e.g. an validation error:
+
+> "message": "Status 422: Notification could not be sent because: The to field is required.",
+
+
 ### Middlewares
 
+#### [AcceptsJsonMiddleware](src/Http/Middleware/AcceptsJsonMiddleware.php)
+
+#### [HasValidTokenMiddleware](src/Http/Middleware/HandleAppTokenMiddleware.php)
 You can add the middleware group `faaren` to all routes you like. This middleware group contains the following middlewares:
 
 - [HasValidTokenMiddleware](src/Http/Middleware/HandleAppTokenMiddleware.php) => Checks if the given token is valid and attaches the token details to the current request. The details are available with `$request->api_token`.
@@ -208,11 +249,6 @@ class ShowVehiclePoolRequest extends FaarenRequest
 
 ### Handle Exceptions as Json
 
-File: `app/Exceptions/Handler` change the extends to ` \FaarenTech\FaarenSDK\Exceptions\Handler`
+Simple add the [AcceptsJsonMiddleware](src/Http/Middleware/AcceptsJsonMiddleware.php) to the relevant middleware groups or as a global middleware.
 
-```php 
-
-class Handler extends \FaarenTech\FaarenSDK\Exceptions\Handler
-{
-}
-```
+> Using the custom [Handler](src/Exceptions/Handler.php) is deprecated and will cause errors when you use it!
