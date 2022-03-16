@@ -19,6 +19,7 @@ class FaarenSDK
      *
      * @param string $plainTextToken
      * @return FaarenSDK
+     * @throws AppTokenException
      */
     public static function init(string $plainTextToken)
     {

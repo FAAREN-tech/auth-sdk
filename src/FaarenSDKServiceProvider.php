@@ -8,11 +8,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class FaarenSDKServiceProvider extends ServiceProvider
 {
+    /**
+     * Registers all required assets
+     *
+     * @return void
+     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/faaren-sdk.php', 'faaren-sdk');
     }
 
+    /**
+     * Called on application boot
+     *
+     * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     public function boot()
     {
         JsonResource::withoutWrapping();

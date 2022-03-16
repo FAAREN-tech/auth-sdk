@@ -15,6 +15,7 @@ abstract class Handler extends ExceptionHandler
      * @param $request
      * @param Throwable $e
      * @return ResponseCollection
+     * @deprecated
      */
     public function render($request, Throwable $e)
     {

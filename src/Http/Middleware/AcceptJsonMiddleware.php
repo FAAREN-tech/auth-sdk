@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 class AcceptJsonMiddleware
 {
     /**
+     * Simply adds the Accept:application/json header to every incoming request
+     *
      * @param Request $request
      * @param Closure $next
      * @return mixed
