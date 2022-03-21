@@ -11,7 +11,7 @@ use JetBrains\PhpStorm\Pure;
 
 class FaarenSDK
 {
-    const TOKEN_SELF_URL = "/app-tokens/self";
+    const TOKEN_SELF_URL = "app-tokens/self";
     protected AppToken $appToken;
 
     /**
