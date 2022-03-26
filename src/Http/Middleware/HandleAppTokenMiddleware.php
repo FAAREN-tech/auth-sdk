@@ -35,7 +35,7 @@ class HandleAppTokenMiddleware
 
         $token = new AppToken($response->object()->data, $plainTextToken);
 
-        $request->merge(['app_token' => $token]);
+        App::singleton('app-token', fn() => new AppToken($response->object()->data, $plainTextToken));
 
         return $next($request);
     }
