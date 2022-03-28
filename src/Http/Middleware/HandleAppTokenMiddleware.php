@@ -7,6 +7,7 @@ use FaarenTech\FaarenSDK\FaarenSDK;
 use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class HandleAppTokenMiddleware
