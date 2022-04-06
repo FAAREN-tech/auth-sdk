@@ -6,6 +6,7 @@ use FaarenTech\FaarenSDK\Exceptions\NotificationServiceException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\Pure;
 
 class MailNotification
 {
@@ -22,12 +23,28 @@ class MailNotification
     protected ?array $mailData;
 
     /**
+     * The data that should be put in the mailing
+     * @var NotificationService|null
+     */
+    protected ?NotificationService $notificationService;
+
+    /**
+     * @param  NotificationService|null  $notificationService
+     */
+    public function __construct(?NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
+    /**
      * Returns a new instance of a Mail Notification
+     *
+     * @param NotificationService $notificationService
      * @return static
      */
-    public static function init(): self
+    public static function init(NotificationService $notificationService): self
     {
-        return new self();
+        return new self($notificationService);
     }
 
     /**
@@ -56,8 +73,6 @@ class MailNotification
             $status = $response->status();
             throw new NotificationServiceException("Status {$status}: Notification could not be sent because: {$reason}");
         }
-
-        ray("MailNotification@send", $endpoint);
     }
 
     /**
@@ -115,12 +130,16 @@ class MailNotification
      *
      * @return string
      */
-    protected function getToken(): string
+    #[Pure] protected function getToken(): string
     {
-        return match (config('app.env')) {
-            "production", "prod" => config('faaren-sdk.notification_service.tokens.production'),
-            "staging", "stage" => config('faaren-sdk.notification_service.tokens.staging'),
-            default => config('faaren-sdk.notification_service.tokens.dev'),
-        };
+        return $this->getNotificationService()->getPlainTextToken();
+    }
+
+    /**
+     * @return NotificationService|null
+     */
+    public function getNotificationService(): ?NotificationService
+    {
+        return $this->notificationService;
     }
 }
