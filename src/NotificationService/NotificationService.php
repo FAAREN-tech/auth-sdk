@@ -2,6 +2,8 @@
 
 namespace FaarenTech\FaarenSDK\NotificationService;
 
+use JetBrains\PhpStorm\Pure;
+
 class NotificationService
 {
     protected ?string $plainTextToken;
@@ -23,12 +25,11 @@ class NotificationService
     }
 
     /**
-     * @param string $plainTextToken
      * @return MailNotification
      */
-    public function mail(): MailNotification
+    #[Pure] public function mail(): MailNotification
     {
-        return new MailNotification($this->getPlainTextToken());
+        return new MailNotification($this);
     }
 
     /**

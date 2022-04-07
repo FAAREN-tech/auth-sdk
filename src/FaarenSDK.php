@@ -81,6 +81,6 @@ class FaarenSDK
      */
     #[Pure] public function notification(): NotificationService
     {
-        return new NotificationService();
+        return new NotificationService($this->appToken()->getPlainTextToken());
     }
 }
