@@ -28,7 +28,8 @@ class HandleAppTokenMiddleware
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
-            $reason = $response->object()->message ?? "No error message available";
+            $message = $response->error->message ?? $response->object()->message;
+            $reason = $message ?? "No error message available";
             $status = $response->status();
 
             abort($status, "appToken-Error: {$reason}");
