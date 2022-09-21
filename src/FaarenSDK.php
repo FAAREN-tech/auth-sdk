@@ -58,7 +58,6 @@ class FaarenSDK
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
         if($response->failed()) {
-            $reason = $response->object()->message ?? "No error message available";
             $message = $response->error->message ?? $response->object()->message;
             $reason = $message ?? "No error message available";
             $status = $response->status();
