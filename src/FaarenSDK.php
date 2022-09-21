@@ -59,8 +59,10 @@ class FaarenSDK
 
         if($response->failed()) {
             $reason = $response->object()->message ?? "No error message available";
+            $message = $response->error->message ?? $response->object()->message;
+            $reason = $message ?? "No error message available";
             $status = $response->status();
-            throw new AppTokenException("appToken-Error: Http status {$status} - {$reason}");
+            throw new ApiTokenException("ApiToken-Error: Http status {$status} - {$reason}");
         }
 
         return new AppToken($response->object()->data, $plainTextToken);
