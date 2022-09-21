@@ -31,7 +31,7 @@ class HandleAppTokenMiddleware
             $message = $response->error->message ?? $response->object()->message ?? "No error message available";
             $status = $response->status();
 
-            abort($status, "appToken-Error: {$message}");
+            abort($status, "Faaren-SDK Error: {$message}");
         }
 
         $token = new AppToken($response->object()->data, $plainTextToken);
