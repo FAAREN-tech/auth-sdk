@@ -52,7 +52,7 @@ class FaarenSDK
         $endpoint = Str::replace(
             "//",
             "/",
-            config('faaren-sdk.service_url') . "/" . self::TOKEN_SELF_URL
+            config('faaren-sdk.service_url') . "/" . self::TOKEN_SELF_URL . '?server=' . config('faaren-sdk.region')
         );
 
         $response = Http::withToken($plainTextToken)->get($endpoint);
