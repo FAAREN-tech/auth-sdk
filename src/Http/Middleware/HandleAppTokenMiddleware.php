@@ -23,7 +23,7 @@ class HandleAppTokenMiddleware
     {
         $plainTextToken = $request->bearerToken();
 
-        $endpoint = config('faaren-sdk.service_url') . "/" . FaarenSDK::TOKEN_SELF_URL;
+        $endpoint = config('faaren-sdk.service_url') . "/" . FaarenSDK::TOKEN_SELF_URL . '?server=' . config('faaren-sdk.region');
         
         $response = Http::withToken($plainTextToken)->get($endpoint);
 
